@@ -17,6 +17,12 @@ class ViewController: UIViewController {
         return label
     }()
     
+    private let tempLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 50)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
