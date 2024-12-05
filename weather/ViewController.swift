@@ -81,6 +81,12 @@ class ViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(tempLabel.snp.bottom).offset(10)
         }
+        
+        weatherImageView.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(160)
+            $0.top.equalTo(tempStackView.snp.bottom).offset(20)
+        }
     }
     
 }
