@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import SnapKit
 
 class ViewController: UIViewController {
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "서울특별시"
@@ -55,9 +56,24 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configureUI()
     }
-
-
+    
+    private func configureUI() {
+        view.backgroundColor = .black
+        [
+            titleLabel,
+            tempLabel,
+            tempStackView,
+            weatherImageView
+        ].forEach { view.addSubview($0)}
+        [
+            tempMinLabel,
+            tempMaxLabel
+        ].forEach { tempStackView.addArrangedSubview($0) }
+        
+        
+    }
+    
 }
 
