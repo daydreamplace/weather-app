@@ -46,6 +46,13 @@ class ViewController: UIViewController {
         return stackView
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .black
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
