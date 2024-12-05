@@ -76,6 +76,11 @@ class ViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(100)
         }
+        
+        tempStackView.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(tempLabel.snp.bottom).offset(10)
+        }
     }
     
 }
