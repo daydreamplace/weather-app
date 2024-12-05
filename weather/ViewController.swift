@@ -72,7 +72,10 @@ class ViewController: UIViewController {
             tempMaxLabel
         ].forEach { tempStackView.addArrangedSubview($0) }
         
-        
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(100)
+        }
     }
     
 }
