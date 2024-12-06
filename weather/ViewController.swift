@@ -69,6 +69,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchCurrentWeatherData()
     }
     
     // 서버 데이터를 불러오는 메서드
@@ -98,8 +99,23 @@ class ViewController: UIViewController {
     
     // 서버에서 현재 날씨 데이터를 불러오는 메서드
     private func fetchCurrentWeatherData() {
-        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")!
-        urlComponents?.queryItems = []
+        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
+        urlComponents?.queryItems = self.urlQueryItems
+        
+        guard let url = urlComponents?.url else {
+            print("잘못된 URL")
+            return
+        }
+        
+        fetchData(url: url) { [weak self] (result: CurrentWeatherResult?) in
+            guard let self, let result else { return }
+            
+            DispatchQueue.main.async {
+                self.tempLabel.text = "\(Int(result.main.temp))°C"
+                self.tempMinLabel.text = "최소 \(Int(result.main.tempMin))"
+                self.tempMaxLabel.text = "최대 \(Int(result.main.tempMax))"
+            }
+        }
     }
     
     private func configureUI() {
@@ -136,6 +152,4 @@ class ViewController: UIViewController {
             $0.top.equalTo(tempStackView.snp.bottom).offset(20)
         }
     }
-    
 }
-
