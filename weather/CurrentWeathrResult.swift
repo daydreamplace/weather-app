@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CurrentWeatherRewsult: Codable {
+struct CurrentWeatherResult: Codable {
     let weather: [Weather]
     let main: WeatherMain
 }

@@ -10,6 +10,15 @@ import SnapKit
 
 class ViewController: UIViewController {
     
+    // URL 쿼리 아이템들
+    // 서울역 위경도
+    private let urlQueryItems: [URLQueryItem] = [
+        URLQueryItem(name: "lat", value: "37.5"),
+        URLQueryItem(name: "lon", value: "126.9"),
+        URLQueryItem(name: "appid", value: "44cedd37451397d97ba5bb210e7a543c"),
+        URLQueryItem(name: "units", value: "metric"),
+    ]
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "서울특별시"
@@ -89,7 +98,8 @@ class ViewController: UIViewController {
     
     // 서버에서 현재 날씨 데이터를 불러오는 메서드
     private func fetchCurrentWeatherData() {
-        
+        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")!
+        urlComponents?.queryItems = []
     }
     
     private func configureUI() {
