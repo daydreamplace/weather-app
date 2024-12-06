@@ -62,7 +62,7 @@ class ViewController: UIViewController {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .black
         return imageView
     }()
     
@@ -114,6 +114,20 @@ class ViewController: UIViewController {
                 self.tempLabel.text = "\(Int(result.main.temp))°C"
                 self.tempMinLabel.text = "최소 \(Int(result.main.tempMin))"
                 self.tempMaxLabel.text = "최대 \(Int(result.main.tempMax))"
+            }
+            
+            guard let imageUrl = URL(string: "https://openweathermap.org/img/wn/\(result.weather[0].icon)@2x.png") else {
+                return
+            }
+            
+            // image 를 로드하는 작업은 백그라운드 쓰레드 작업
+            if let data = try? Data(contentsOf: imageUrl) {
+                if let image = UIImage(data: data) {
+                    
+                    DispatchQueue.main.async {
+                        self.weatherImageView.image = image
+                    }
+                }
             }
         }
     }
