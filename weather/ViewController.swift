@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     
     private let tempLabel: UILabel = {
         let label = UILabel()
+        label.text = "20도"
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 50)
         return label
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
     
     private let tempMinLabel: UILabel = {
         let label = UILabel()
+        label.text = "20도"
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 20)
         return label
@@ -34,6 +36,7 @@ class ViewController: UIViewController {
     
     private let tempMaxLabel: UILabel = {
         let label = UILabel()
+        label.text = "20도"
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 20)
         return label
@@ -50,13 +53,38 @@ class ViewController: UIViewController {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .gray
         return imageView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+    
+    // 서버 데이터를 불러오는 메서드
+    private func fetchData<T: Decodable>(url: URL, completion: @escaping (T?) -> Void) {
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: URLRequest(url: url)) { data, response, error in
+            guard let data = data, error == nil else {
+                print("데이터 로드 실패")
+                completion(nil)
+                return
+            }
+            // http status code 성공 범위.
+            let successRange = 200..<300
+            if let response = response as? HTTPURLResponse, successRange.contains(response.statusCode) {
+                guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
+                    print("JSON 디코딩 실패")
+                    completion(nil)
+                    return
+                }
+                completion(decodedData)
+            } else {
+                print("응답 오류")
+                completion(nil)
+            }
+        }.resume()
     }
     
     private func configureUI() {
@@ -75,6 +103,11 @@ class ViewController: UIViewController {
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(100)
+        }
+        
+        tempLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
         }
         
         tempStackView.snp.makeConstraints{
